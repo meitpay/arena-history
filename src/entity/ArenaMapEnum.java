@@ -1,0 +1,13 @@
+package entity;
+
+public enum ArenaMapEnum {
+    BLADES_EDGE_ARENA,
+    RUINS_OF_LORDAERON,
+    TOL_VIRON,
+    TIGERS_PEAK,
+    NAGRAND_ARENA,
+    ASHMANES_FALL,
+    HOOK_POINT,
+    MUGAMALA_ARENA,
+    THE_ROBODROME,
+}
