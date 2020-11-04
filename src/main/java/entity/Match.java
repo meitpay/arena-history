@@ -20,4 +20,32 @@ public class Match {
         this.ratingChange = ratingChange;
         this.map = map;
     }
+
+    public Instant getTimestamp() {
+        return timestamp;
+    }
+
+    public int getMap() {
+        return map;
+    }
+
+    public Team getHomeTeam() {
+        return homeTeam;
+    }
+
+    public Team getAwayTeam() {
+        return awayTeam;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public int getRatingChange() {
+        return ratingChange;
+    }
+
+    public boolean isVictory() {
+        return victory;
+    }
 }

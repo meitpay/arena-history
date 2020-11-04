@@ -3,6 +3,7 @@ package impl;
 import entity.Match;
 import entity.Player;
 import entity.Team;
+import enums.Specs;
 
 import java.io.IOException;
 import java.time.Instant;
@@ -14,14 +15,13 @@ import java.util.stream.Stream;
 
 public class Generator {
 
-    public List<Match> generateMatch() {
+    public List<Match> generateMatches() {
         Reader reader = new Reader();
-        String path = System.getProperty("user.dir") + "/src/data/matches.csv";
+        String path = System.getProperty("user.dir") + "/src/main/java/data/matches.csv";
         List<Match> matches = new ArrayList<>();
         try {
             List<Map<String, String>> data = reader.getMatchData(path);
             data.forEach(element -> {
-                System.out.println(element.keySet());
                 Instant timestamp = Instant.ofEpochSecond(Long.parseLong(element.get("timestamp")));
                 String homeTeam = element.get("homeTeam");
                 String awayTeam = element.get("awayTeam");
@@ -44,18 +44,25 @@ public class Generator {
             e.printStackTrace();
         }
 
-        System.out.println(matches);
         return matches;
     }
 
     private Team generateTeam(String playerString, int mmr) {
-        List<String> split = Stream.of(playerString.split("[,-]")).map(String::trim).collect(Collectors.toList());
+
+        List<String> split = Stream.
+                of(playerString.toUpperCase().replace("-", "_").split("[,]"))
+                .map(String::trim)
+                .collect(Collectors.toList());
+
+        Specs playerOne = Specs.valueOf(split.get(0));
+        Specs playerTwo = Specs.valueOf(split.get(1));
+        Specs playerThree = Specs.valueOf(split.get(2));
 
         List<Player> players = new ArrayList<>();
-        players.add(new Player(split.get(0), split.get(1)));
-        players.add(new Player(split.get(2), split.get(3)));
-        players.add(new Player(split.get(4), split.get(5)));
+        players.add(new Player(playerOne.classData.id, playerOne.specId, playerOne.classData.name, playerOne.specName));
+        players.add(new Player(playerTwo.classData.id, playerTwo.specId, playerTwo.classData.name, playerTwo.specName));
+        players.add(new Player(playerThree.classData.id, playerThree.specId, playerThree.classData.name, playerThree.specName));
 
-        return new Team(players.get(0), players.get(1), players.get(2), mmr);
+        return new Team(players, mmr);
     }
 }
